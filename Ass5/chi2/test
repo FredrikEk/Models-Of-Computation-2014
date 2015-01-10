@@ -1,0 +1,21 @@
+let {id = \x.x;
+      z = Z;  
+      one = S Z;
+      two = S (S Z);
+      three = S (S (S Z));
+      four = S (S (S (S Z)));
+      pred = \n.case n of {
+          Z -> Z;
+          S -> \x.x};
+      add = (rec add =
+          \x y. case x of {
+            Z -> y;
+            S -> \n. (S (add n y))})}                  
+in 
+  let {mul = 
+      (rec mul =
+              \x y. case x of {
+                 Z -> Z;
+                 S -> \n. add y (mul n y)})}
+in mul (S (S (S (S Z)))) (S (S (S (S Z))))
+                 

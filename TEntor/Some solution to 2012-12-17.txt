@@ -1,0 +1,35 @@
+Exam 2012-12-17: Models of Computation
+
+1a) (10p) Define what it means for a set to be enumerable.
+
+Definition 1 (enumerable) A set A is enumerable if there exists a surjective function
+g \in N → A.
+
+Definition 2 (enumerable) A set A is enumerable if there exists a total and injective
+function n \in A → N.
+
+Not:
+Injektiv: Alla element i A har ett eget element i B. Men alla element i B behöver inte vara tagna.
+Surjektiv: Alla element i B har ett element i A. Ett element i B kan ha flera olika element i A.
+
+Partial: A partial function is a function that is defined only on part of its domain. Partial functions necessarily arise when functions are defined by computations because for some values of the arguments the computation defining the value of the function may not terminate. However, some of our elementary functions will be defined as partial functions. Typ: $\exists x:A\ \exists y:B\ f(x) = y$
+Total: Function is defined for all inputs in the set A, A->B.
+
+
+(b) (15p) Show that the set of character strings is enumerable.
+Lets say we give all characters in the english alphabet a value (0 = A, 1 = B ... Z = 25).
+So that we can convert all input natural numbers to the base 26. The natural number 12345 can with base 26 then be written as 18*26^2 + 6*26 + 21, which corresponds to the string "sgv" because "s", "g" and "v" has index 18, 6, 21 in the alphabet, respectively.
+
+
+(c) (15p) Show that the set N -> N is not enumerable.
+
+--
+
+2. (20p) Beta-conversion in lambda-calculus expresses in some sense that the
+expression (\x.e) d can be rewritten to e[x:=d]. Motivate this rule!
+
+Tes: The question is why this rule look like it does. A lambda expression \x.e is standing for the function f defined by f x = e where e may contain occurrences of x. That the function f is defined by the equation above means exactly that f d = e[x:=d] for any expression d. This explains the beta-reduction.
+
+The beta reduction rule states that an application of the form (\lambda x.t)s reduces to the term t[x:=s]. The notation (\lambda x.t) s -> t [x:=s] is used to indicate that (\lambda x.t)s beta reduces to t[x:=s] . For example, for every s, (\lambda x.x)s -> x[x:=s] = s. This demonstrates that \lambda x.x really is the identity. Similarly, (\lambda x.y)s -> y[x:=s] = y , which demonstrates that \lambda x.y is a constant function.
+
+

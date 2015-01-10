@@ -1,0 +1,23 @@
+Lambda . Exp    ::= "\\" [LIdent] "." Exp ;
+separator LIdent "";
+Apply . Exp1    ::= Exp [Exp3] ;
+separator nonempty Exp3 "";
+Case   . Exp    ::= "case" Exp "of" "{"[Branch]"}" ;
+separator nonempty Branch ";" ;
+layout "of", "let";
+Rec    . Exp    ::= "rec" LIdent "=" Exp;
+Let    . Exp    ::= "let" "{" [Def]"}" "in" Exp;
+separator nonempty Def ";";
+Var    . Exp3   ::= LIdent;
+Const  . Exp3   ::= UIdent;
+_.       Exp    ::= Exp1 ;
+_.       Exp1   ::= Exp2 ;
+_.       Exp2   ::= Exp3 ;
+_.       Exp3   ::= "(" Exp ")" ;
+Branch . Branch ::= UIdent "->" Exp;
+Def    . Def    ::= LIdent "=" Exp;
+comment "--";
+comment "{-" "-}";
+token UIdent (upper (letter | digit | '-')*);
+token LIdent (lower (letter | digit | '-')*);
+

@@ -1,0 +1,43 @@
+Exam 2013-12-18: Models of Computation
+
+1. It is possible to write a function in Haskell (or some other language)
+halt : Bool -> Bool
+which returns true if the input terminates.
+
+It is not possible. Alan Turing proved in 1936 that a general algorithm to solve the halting problem for all possible program-input pairs cannot exist. A key part of the proof was a mathematical definition of a computer and program, which became known as a Turing machine; the halting problem is undecidable over Turing machines. It is one of the first examples of a decision problem.
+
+Proof:
+T x = if halts x then loop else true
+The program loop is a program which never terminates. We now see that the pro-
+gram T reverses the termination behaviour of its argument, i.e. that the program T a terminates if and only if a does not terminate. And this holds for all boolean values a! In particular for the boolean value s defined recursively by s = T s
+
+Does s terminate? From the definition of s it terminates if T s terminates. But this terminates if the argument s does not terminate. So s terminates if s does not terminate.
+
+So s does not terminate? But if this is so, then T s does not terminate (from the definition of s). And T s does not terminate if s terminates. So s does not terminate if s terminates.
+
+We have a contradiction and we can conclude that the program halts does not exist.
+
+2. All closed expressions in lambda-calculus have a unique (up to alpha-
+conversion) normal form.
+
+
+
+3. If an open expression in lambda-calculus has a normal form, then this
+normal form is open.
+
+
+
+4. The full evaluation of a program in X always terminates if the program
+has a weak head normal form.
+
+
+
+5. The set of all terminating Java-programs is enumerable.
+
+
+
+6. The set of all total functions Bool -> N is enumerable.
+
+
+
+7. It is possible to write a program in PRF which takes any number of arguments and always return 0. Here you must use the version of PRF which we have used in the course, so for instance the arity of zero is 0, the arity of succ is 1 and the arity of proj(n,i) is n+1 if i<=n.

@@ -1,0 +1,4 @@
+rec add =
+          \x y. case x of {
+            Z -> y;
+            S -> \n. (S (add n y))}

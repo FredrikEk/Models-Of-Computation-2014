@@ -1,0 +1,74 @@
+module Eval where
+--import IO ( stdin, hGetContents )
+import System.Environment ( getArgs, getProgName )
+import Lexchi
+import Parchi
+import Skelchi
+import Printchi
+import Abschi
+import ErrM
+
+substs :: Exp -> [LIdent] -> [Exp] -> Exp
+substs exp1 (i:[]) (exp2:[]) = subst exp1 i exp2
+substs exp1 (i:is) (exp2:exps) = substs (subst exp1 i exp2) is exps
+
+substs _ is e               = error "Invalid constructor"
+
+subst :: Exp -> LIdent -> Exp -> Exp
+subst (Apply e' es) i e   = Apply (subst e' i e) (map (\x -> subst x i e) es)
+subst (Lambda is e') i e  | i `elem` is = Lambda is e'
+                          | otherwise   = Lambda  is (subst e' i e)   
+subst (Case e' bs) i e    = Case (subst e' i e) (map (\(Branch ui exp) -> (Branch ui (subst exp i e))) bs)
+subst (Rec j e') i e      | j == i    = Rec j e'
+                          | otherwise = Rec j (subst e' i e)
+subst (Var j) i e         | j == i    = e
+                          | otherwise = Var j
+subst (Const ui) i e      = Const ui
+subst _ i e               = error "Invalid constructor"
+
+  
+
+lookupBr :: UIdent -> [Branch] -> Maybe Exp
+lookupBr ui [] = Nothing
+lookupBr ui ((Branch uj e):bs) | ui == uj  = Just e
+                               | otherwise = lookupBr ui bs  
+
+
+prune :: Exp -> Exp
+prune (Apply e' es)    = Apply (prune e') (map prune es)  
+prune (Lambda is e')   = error "d"
+prune (Case e' bs)     = Case (prune e') (map (\(Branch ui exp) -> (Branch ui (prune exp))) bs) 
+prune (Rec j e')       = error "d"
+prune (Var j)          = error "d"         
+prune (Const ui)       = error "d"
+
+-- (prune e) is the same expression as the expression e, except that
+-- all let-expressions inside e are removed. So, all occurrences of
+-- let-expressions are replaced by an application:
+--  let x = d in f
+-- is replaced by the expression
+-- ((\x.f) d)
+
+codenat :: Int -> Exp
+codenat = error "not implemented yet"
+
+casenat :: Exp -> a -> (Exp -> a) -> a
+-- casenat a b c = b   , if a is Z
+-- casenat a b c = c n , if a is (S n)
+casenat = error "not implemented yet"
+
+decodenat :: Exp -> Int
+decodenat = error "not implemented yet"
+
+add = parse "rec add = \\x y. case x of { Z -> y; S -> \\n. (S (add n y))}"
+-------------------------------------
+
+printExp e = putStr ((printTree e)++"\n")
+
+parse :: String -> Exp
+parse s = case (pExp (myLexer s)) of
+           Bad s2   -> error ("\nParse Failed...\n   " ++ s2)
+           Ok  tree -> tree 
+parsef file = do
+        pString <- (readFile file) 
+        printExp (parse pString)

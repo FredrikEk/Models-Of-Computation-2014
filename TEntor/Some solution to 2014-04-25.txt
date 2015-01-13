@@ -27,13 +27,13 @@ f(j_0+1,j_1,...,j_n)     -> i /
 shift(f,j_0,j_1,...,j_n) -> i
 
 6. Define what it means for a a program in X to be a self-evaluator. In order to do this you have to explain how to represent X-programs in X. There is no need to do this in full detail, just outline the construction.
-Answer: A set of programs in X is an inductively defined set. There is a straight-forward way to express inductively defined sets in X with the hel of constructions.
-Lets take an abstrac syntax of lambda abstractions and applications in X (all other cases are done in the same way): 
+Answer: A set of programs in X is an inductively defined set. There is a straight-forward way to express inductively defined sets in X with the help of constructions.
+Lets take an abstract syntax of lambda abstractions and applications in X (all other cases are done in the same way): 
 	lambda (is,e) \in Exp, is \in List id, e \in Exp
 	apply (e,es) \in Exp, e \in Exp, es \in List Exp
 	nil \in List A
 	cons (a,as) \in List A, a \in A, as \in List A
-	Now we can do a transformation of this part of abstract syntax to X:
+	-Now we can do a transformation of this part of abstract syntax to X:
 	lambda ^is^ ^e^
 	apply ^e^ ^es^
 	nil

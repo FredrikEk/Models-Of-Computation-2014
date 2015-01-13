@@ -1,0 +1,43 @@
+Exam 2014-04-25: Models of Computation
+
+1. What does it mean that a function f : N -> N is Turing-computable?
+Answer: A function f : N->N is Turing-computable iff there is is a Turing machine M such that M ^n^ = ^f(n)^ for all n \in N. ^n^ is a representation of n on a Turing machine. By M ^n^ we mean that the machine M is given ^n^ as an input.
+
+2. What does it mean that a function f : N->N is computable in lambda calculus?
+Answer: A function f: N->N is computable in lambda-calculus iff there is a lambda expression E such that E ^n^ = ^f(n)^ for all n \in N. ^n^ is a representation of n in lambda calculus.
+
+3. State Church's thesis! Explain why it is not called Church's theorem and explain why we believe it is true.
+Answer: Church's thesis: All computable functions are precisely those which can be expressed in lambda calculus. It is called a thesis because it doesn't have a proof (it hasn't been proved). We believe that it is true, because until now nobody has found a counter-example and all models of computable functions that are found, turn out to be equivalent to each other and to the lambda-calculus. i.e Turing Machine, Primitive recursive functions etc.
+
+4. One argument why not all functions in N -> N are computable is that there are more functions in N -> N than algorithms. In order to understand this argument you have to
+(a) explain what it means that one infinite set has more elements than another infinite set
+(b) explain why N -> N has more elements than the set of algorithms
+Answer: We say that set A has at least as many elements as set B if there exists a surjective function f : A->B. An infinite set A has more elements than an infinite set B if set B is enumerable and set A is not enumerable. (B does not have to be enumerable). Set A is enumerable if there exists a surjective function f:N->A or an injective and total function f:A->N. A set of algorithms (programs) is enumerable since we can represent every element in this set as a string. Then, we can view this string as a number using ASCII encoding. This means that there is a total injective function from algorithms to natural numbers where every unique string corresponds to a unique number.
+A set of functions N -> N is not enumerable. Suppose it is enumerable, then there exists an enumeration f_0, f_1, f_2, ..., f_i. Lets construct a function which is not in this enumeration: d(i) = f_i(i)+1. Suppse, it is in the enumeration and so it is equal to some f_i, but this is not true by construction, since d(i) = f_i(i)+1. So the set of functions N->N is not enumerable.
+
+5. Show how to extend the language PRF of primitive recursive functions to a language RF (recursive functions) so that it can express all computable functions! IT is enough if you give the syntax and semantics of the extension, there is no need to describe the entire PRF. In giving the syntax, you must be precise about the arity of the functions involved.
+Answer: PRF must be extended with unbounded linear search operation to become RF. This operation takes a function and its arguments and returns the first argument such that the value of f is equal to 0.
+min \in RF_{n+2}, min(f) \in RF_{n+1}, f \in RF_{n+1} 
+f(i,j_1,...,j_n)   -> 0 / 
+min(f,j_1,...,j_n) -> i
+min(shift(f),j_1,...,j_n) -> i / 
+min(f,j_1,...,j_n)        -> i+1
+Shift is an operation for increasing the first argument of the function.
+f(j_0+1,j_1,...,j_n)     -> i / 
+shift(f,j_0,j_1,...,j_n) -> i
+
+6. Define what it means for a a program in X to be a self-evaluator. In order to do this you have to explain how to represent X-programs in X. There is no need to do this in full detail, just outline the construction.
+Answer: A set of programs in X is an inductively defined set. There is a straight-forward way to express inductively defined sets in X with the hel of constructions.
+Lets take an abstrac syntax of lambda abstractions and applications in X (all other cases are done in the same way): 
+	lambda (is,e) \in Exp, is \in List id, e \in Exp
+	apply (e,es) \in Exp, e \in Exp, es \in List Exp
+	nil \in List A
+	cons (a,as) \in List A, a \in A, as \in List A
+	Now we can do a transformation of this part of abstract syntax to X:
+	lambda ^is^ ^e^
+	apply ^e^ ^es^
+	nil
+	cons ^a^ ^as^
+	^a^ is a representation of a in X
+	So every clause in the inductive definition gets a corresponding constructor in X and we proceed recursively.
+Now since it is possible to represent X-programs in X, we can write a program in X that works with these programs. One such program is an interpreter (an evaluator), It is a program I in X such that I ^p^ ^a^ = p a for all programs p and their inputs a. An amusing fact is that now we can pass I itself as an argument to I: I ^I^ ^p^ ^a^ = p a. Our interpreter interprets itself with a another program and its input as arguments
